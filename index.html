@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Triad3</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+            },
+            colors: {
+              background: '#0A0E1A',
+              card: '#111827',
+              border: '#222B45',
+              text: '#E0E7FF',
+              'text-secondary': '#94A3B8',
+              primary: '#00D1FF',
+              'primary-hover': '#57E5FF',
+              secondary: '#10B981', // Kept for specific accents if needed
+            },
+            boxShadow: {
+              'glow-primary': '0 0 15px rgba(0, 209, 255, 0.6)',
+              'glow-primary-light': '0 0 8px rgba(0, 209, 255, 0.4)',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Loading Animation Styles */
+      .loading-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(10, 14, 26, 0.9); /* #0A0E1A with opacity */
+        backdrop-filter: blur(5px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100; /* High z-index to be on top of everything */
+      }
+
+      .loader-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .loader {
+        --path: #222B45; /* border color */
+        --dot: #00D1FF; /* primary color */
+        --duration: 3s;
+        height: 44px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .loader svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .loader svg polygon {
+        fill: none;
+        stroke: var(--path);
+        stroke-width: 10px;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        stroke-dasharray: 145 76 145 76;
+        stroke-dashoffset: 0;
+        animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
+          infinite;
+      }
+
+      .loader.triangle {
+        width: 48px;
+      }
+
+      .loader.triangle:before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        position: absolute;
+        display: block;
+        background: var(--dot);
+        top: 37px;
+        left: 21px;
+        transform: translate(-10px, -18px);
+        animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
+          infinite;
+      }
+
+      @keyframes pathTriangle {
+        33% {
+          stroke-dashoffset: 74;
+        }
+
+        66% {
+          stroke-dashoffset: 147;
+        }
+
+        100% {
+          stroke-dashoffset: 221;
+        }
+      }
+
+      @keyframes dotTriangle {
+        33% {
+          transform: translate(0, 0);
+        }
+
+        66% {
+          transform: translate(10px, -18px);
+        }
+
+        100% {
+          transform: translate(-10px, -18px);
+        }
+      }
+
+      .loadingtext p {
+        color: #E0E7FF; /* text color */
+        position: relative;
+        font-size: 1.25rem;
+        margin: 0;
+        font-weight: 500;
+      }
+
+      .loadingtext p::after {
+        position: absolute;
+        animation: loadingDots 3s infinite linear;
+        color: #E0E7FF; /* text color */
+        content: "";
+        left: 105%;
+      }
+
+      @keyframes loadingDots {
+        0% {
+          content: "";
+        }
+        10% {
+          content: ".";
+        }
+        40% {
+          content: "..";
+        }
+        70% {
+          content: "...";
+        }
+        100% {
+          content: "";
+        }
+      }
+
+      /* Photo Viewer Animation */
+      @keyframes zoom-in {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .animate-zoom-in {
+        animation: zoom-in 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.1/",
+    "react": "https://esm.sh/react@^19.1.1",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.8.0",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.44.4"
+  }
+}
+</script>
+</head>
+  <body class="bg-background font-sans">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
